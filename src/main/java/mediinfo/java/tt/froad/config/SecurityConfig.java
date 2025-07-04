@@ -24,19 +24,8 @@ public class SecurityConfig {
         http
                 // 禁用 CSRF
                 .csrf(AbstractHttpConfigurer::disable)
-
-                // 配置授权规则
-                .authorizeHttpRequests(auth -> auth
-                        // 允许无需认证访问 Swagger 相关端点
-                        .requestMatchers(
-                                "/swagger-ui/**",      // Swagger UI 页面
-                                "/v3/api-docs/**",      // OpenAPI JSON 文档
-                                "/swagger-resources/**", // Swagger 资源
-                                "/webjars/**"           // Webjars 资源
-                        ).permitAll()
-
-                        // 其他请求仍需认证
-                        .anyRequest().authenticated()
+                // 配置授权规则 dev环境允许所有接口通过
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
                 );
 
         return http.build();
